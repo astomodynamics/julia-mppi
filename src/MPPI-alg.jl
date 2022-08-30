@@ -99,9 +99,9 @@ function solve_mppi_cpu(model::AbstractModel, problem::MPPIProblem)
 end
 
 """
-    get_total_entropy(model, problem, S, δu)
+    get_optimal_distribution(model, problem, S, δu)
  
-Compute total entropy at a specific time
+Compute optimal distribution from relative entropy at a specific time
 
 """
 function get_optimal_distribution(
