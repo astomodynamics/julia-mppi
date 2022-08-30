@@ -72,9 +72,9 @@ function solve_mppi_cpu(model::AbstractModel, problem::MPPIProblem)
             δu[:, hN, k] = rand(d, u_dim)
         end
 
-        # compute control for horizon from total entropy
+        # compute control for horizon 
         for j in 1:hN
-            Uh[:, j] += get_total_entropy(model, problem, S, δu[:, j, :])
+            Uh[:, j] += get_optimal_distribution(model, problem, S, δu[:, j, :])
         end
         
         # export to system actuators
@@ -104,7 +104,7 @@ end
 Compute total entropy at a specific time
 
 """
-function get_total_entropy(
+function get_optimal_distribution(
     model::AbstractModel,
     problem::MPPIProblem,
     S::AbstractArray{Float64,1},
@@ -119,8 +119,6 @@ function get_total_entropy(
     for k in 1:K
         sum1 += exp(-(1 / λ) * S[k]) * δu[:, k]
         sum2 += exp(-(1 / λ) * S[k])
-    end
-    entropy = sum1/sum2
-
-    return entropy
+    end 
+    return sum1/sum2
 end
